@@ -7,7 +7,6 @@ trying to answer "is this order going to be late, and would picking a
 different shipping mode actually help?"
 
 ![Late delivery rate by shipping mode, and top model features](screenshot.png)
-*(static preview chart - see "Running it" for the actual Streamlit app)*
 
 ## About the data
 
@@ -127,10 +126,6 @@ python3 -m src.prepare_data
 python3 -m src.train_model
 streamlit run app/app.py
 ```
-
-If you just want to look at the results without installing Streamlit,
-`src/make_preview.py` renders the same core charts to a static PNG
-(`screenshot.png` - that's the image at the top of this README).
 
 ## Stuff that's not perfect / what I'd fix with more time
 
