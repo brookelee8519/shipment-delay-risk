@@ -1,0 +1,19 @@
+# The raw dataset is ~95MB and third-party (Mendeley/Kaggle license) -
+# download it yourself per the README instead of pulling it from here.
+data/DataCoSupplyChainDataset.csv
+data/clean_orders.csv
+
+# Model artifacts - regenerate by running the pipeline scripts in src/.
+src/delay_model.joblib
+src/feature_cols.joblib
+src/feature_importance.csv
+src/model_metrics.csv
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS/editor cruft
+.DS_Store
+.vscode/
