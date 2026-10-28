@@ -7,7 +7,6 @@ trying to answer "is this order going to be late, and would picking a
 different shipping mode actually help?"
 
 ![Late delivery rate by shipping mode, and top model features](screenshot.png)
-*(static preview chart - see "Running it" for the actual Streamlit app)*
 
 ## About the data
 
@@ -50,16 +49,21 @@ after the order resolves too).
 
 ### The model
 Random Forest vs. a Logistic Regression baseline, same comparison as my
-Retention Lab project:
+Retention Lab project, plus the simplest possible baseline: predicting
+each order's late risk as just the historical late rate for its shipping
+mode. The train/test split is done by order, not by line item, so items
+from the same order never end up on both sides.
 
 | Model | ROC-AUC |
 |---|---|
-| Logistic Regression | 0.744 |
-| Random Forest | 0.755 |
+| Shipping mode only (late rate per mode) | 0.738 |
+| Logistic Regression | 0.739 |
+| Random Forest | 0.739 |
 
-70% accuracy at the default threshold, 84% precision / 58% recall on the
-"late" class. Not a huge jump over the linear baseline - the signal here
-is mostly in one feature, which is the more interesting finding:
+69% accuracy at the default threshold, 84% precision / 57% recall on the
+"late" class. Neither model beats the shipping-mode-only baseline in any
+meaningful way - the signal here is almost entirely in one feature, which
+is the more interesting finding.
 
 ### Shipping Mode explains almost everything
 Feature importance says `Shipping Mode` alone accounts for **96% of the
@@ -110,7 +114,7 @@ Python, pandas, scikit-learn, Streamlit
 ## Running it
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/brookelee8519/shipment-delay-risk.git
 cd shipment-delay-risk
 pip install -r requirements.txt
 ```
@@ -119,18 +123,13 @@ Download the dataset from
 [Mendeley Data](https://data.mendeley.com/datasets/8gx2fvg2k6/5) or
 [Kaggle](https://www.kaggle.com/datasets/shashwatwork/dataco-smart-supply-chain-for-big-data-analysis)
 ("DataCo Smart Supply Chain for Big Data Analysis") and place
-`DataCoSupplyChainDataset.csv` in `data/`. It's not included in this repo
-- it's a third-party dataset with its own license, and it's ~95MB.
+`DataCoSupplyChainDataset.csv` in `data/`. It's not included in this repo, since it's a third-party dataset with its own license, and it's ~95MB.
 
 ```bash
 python3 -m src.prepare_data
 python3 -m src.train_model
 streamlit run app/app.py
 ```
-
-If you just want to look at the results without installing Streamlit,
-`src/make_preview.py` renders the same core charts to a static PNG
-(`screenshot.png` - that's the image at the top of this README).
 
 ## Stuff that's not perfect / what I'd fix with more time
 
